@@ -122,24 +122,27 @@ def company_dashboard():
 @app.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
-    # Security check: only allow admins
     if current_user.role != 'admin':
-        flash("Access denied!")
         return redirect(url_for('index'))
     
-    # Requirement: Dashboard must show statistics
+    # Get the search query from the URL (e.g., /admin/dashboard?q=Sudeep)
+    search_query = request.args.get('q', '')
+    
+    if search_query:
+        # Filter students by name
+        students = StudentProfile.query.filter(StudentProfile.full_name.contains(search_query)).all()
+    else:
+        students = StudentProfile.query.all()
+
     stats = {
         'students': User.query.filter_by(role='student').count(),
         'companies': CompanyProfile.query.count(),
         'drives': PlacementDrive.query.count(),
         'applications': Application.query.count()
     }
-    
-    # Requirement: Admin can approve/reject company registrations
     pending_companies = CompanyProfile.query.filter_by(status='Pending').all()
     
-    return render_template('admin_dashboard.html', stats=stats, pending_companies=pending_companies)
-
+    return render_template('admin_dashboard.html', stats=stats, pending_companies=pending_companies, students=students)
 @app.route('/logout')
 @login_required
 def logout():
