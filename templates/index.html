@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="about-section" class="d-flex align-items-center bg-white" style="min-height: 100vh; padding: 100px 0;">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-md-10">
+                <h2 class="display-5 fw-bold text-dark mb-4">ABOUT OUR PLACEMENT CELL</h2>
+                <hr class="mx-auto bg-primary mb-5" style="width: 100px; height: 3px; opacity: 1;">
+                <p class="lead text-muted lh-lg">
+                    The IIT Madras Training and Placement Cell acts as a bridge between the academic excellence of our students 
+                    and the dynamic requirements of the global industry. We facilitate a seamless recruitment process, 
+                    ensuring that every student finds a role that matches their potential. Our cell is dedicated to 
+                    providing top-tier career counseling and professional development opportunities to the 
+                    students of the IIT Madras BS Degree program.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light shadow-inner">
+    <div class="container text-center py-5">
+        <h3 class="fw-bold mb-5">PORTAL SERVICES</h3>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5">
+                <div class="card h-100 border-0 shadow-sm p-5 transition-card">
+                    <i class="bi bi-mortarboard-fill fs-1 text-primary mb-3"></i>
+                    <h4 class="fw-bold">STUDENTS</h4>
+                    <p class="text-muted">Manage your academic profile and apply for the latest recruitment drives with a single click.</p>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card h-100 border-0 shadow-sm p-5 transition-card">
+                    <i class="bi bi-building-fill-check fs-1 text-primary mb-3"></i>
+                    <h4 class="fw-bold">RECRUITERS</h4>
+                    <p class="text-muted">Engage with top-tier technical talent from IIT Madras and schedule comprehensive placement drives.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-5 pt-4">
+            <p class="text-muted small">Please use the <b>LOGIN/REGISTER</b> button in the header to access your personalized dashboard.</p>
+        </div>
+    </div>
+</section>
+
+<style>
+    .transition-card { transition: all 0.3s ease; }
+    .transition-card:hover { transform: translateY(-10px); box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important; }
+</style>
+{% endblock %}

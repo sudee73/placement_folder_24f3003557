@@ -12,7 +12,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-# --- DATABASE MODELS ---
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,7 +49,7 @@ class Application(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# --- ROUTES ---
+
 
 @app.route('/')
 def index():
@@ -58,6 +58,7 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # If already logged in, send them away from the login page
     if current_user.is_authenticated:
         return redirect_user_to_dashboard(current_user)
 
@@ -66,12 +67,15 @@ def login():
         password = request.form.get('password')
         user = User.query.filter_by(username=username).first()
 
-        if user and user.password == password: # In production, use password hashing!
+        if user and user.password == password:
             login_user(user)
+            flash("Welcome back!")
             return redirect_user_to_dashboard(user)
         else:
-            flash("Invalid credentials. Please try again.")
+            flash("Invalid Username or Password. Please try again.")
+            return redirect(url_for('login')) # Stay on the login page if failed
             
+    # This renders the COMPLETELY NEW login page
     return render_template('login.html')
 
 def redirect_user_to_dashboard(user):
@@ -81,7 +85,14 @@ def redirect_user_to_dashboard(user):
         return redirect(url_for('company_dashboard'))
     return redirect(url_for('student_dashboard'))
 
-# --- DASHBOARDS ---
+def redirect_user_to_dashboard(user):
+    if user.role == 'admin':
+        return redirect(url_for('admin_dashboard'))
+    elif user.role == 'company':
+        return redirect(url_for('company_dashboard'))
+    return redirect(url_for('student_dashboard'))
+
+
 
 @app.route('/admin/dashboard')
 @login_required
@@ -89,7 +100,7 @@ def admin_dashboard():
     if current_user.role != 'admin':
         return redirect(url_for('index'))
     
-    # SEARCH LOGIC
+    
     search_query = request.args.get('q', '')
     if search_query:
         students = StudentProfile.query.filter(StudentProfile.full_name.contains(search_query)).all()
@@ -124,7 +135,11 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# --- DATABASE INITIALIZATION ---
+@app.route('/past_recruiters')
+def past_recruiters():
+    flash("Thank you for visiting, We will update it shortly")
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     with app.app_context():
