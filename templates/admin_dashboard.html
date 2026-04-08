@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Admin Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <span class="badge bg-dark p-2">Logged in as: {{ current_user.username }}</span>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+    <div class="col">
+        <div class="card text-white bg-primary shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Students</h5>
+                <p class="card-text fs-2 fw-bold">{{ stats.students }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-white bg-success shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Companies</h5>
+                <p class="card-text fs-2 fw-bold">{{ stats.companies }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-white bg-info shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Drives</h5>
+                <p class="card-text fs-2 fw-bold">{{ stats.drives }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card text-white bg-warning shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Applications</h5>
+                <p class="card-text fs-2 fw-bold">{{ stats.applications }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="card shadow-sm mb-5">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Pending Company Registrations</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Website</th>
+                        <th>HR Contact</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for company in pending_companies %}
+                    <tr>
+                        <td><strong>{{ company.company_name }}</strong></td>
+                        <td><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></td>
+                        <td>{{ company.hr_contact if company.hr_contact else 'Not Provided' }}</td>
+                        <td>
+                            <form action="{{ url_for('approve_company', id=company.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-success px-3">Approve</button>
+                            </form>
+                            
+                            <form action="{{ url_for('reject_company', id=company.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger px-3">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">
+                            <i class="bi bi-info-circle"></i> No pending registrations at the moment.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">Search Students</div>
+            <div class="card-body">
+                <form action="#" method="GET" class="d-flex">
+                    <input type="text" name="search_student" class="form-control me-2" placeholder="Search by name or ID...">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+                <p class="small text-muted mt-2">Core requirement: Admin must be able to search students.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">Search Companies</div>
+            <div class="card-body">
+                <form action="#" method="GET" class="d-flex">
+                    <input type="text" name="search_company" class="form-control me-2" placeholder="Search by company name...">
+                    <button type="submit" class="btn btn-success">Search</button>
+                </form>
+                <p class="small text-muted mt-2">Core requirement: Admin must be able to search companies.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

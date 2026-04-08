@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1>Welcome, {{ profile.company_name }}</h1>
+    <a href="/company/create_drive" class="btn btn-primary">Create New Placement Drive</a>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Company Profile</h5>
+        <p><strong>Website:</strong> {{ profile.website }}</p>
+        <p><strong>Status:</strong> 
+            <span class="badge {% if profile.status == 'Approved' %}bg-success{% else %}bg-warning{% endif %}">
+                {{ profile.status }}
+            </span>
+        </p>
+    </div>
+</div>
+
+<h3>Your Placement Drives</h3>
+<table class="table table-striped border shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Applicants</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for drive in drives %}
+        <tr>
+            <td>{{ drive.job_title }}</td>
+            <td>{{ drive.deadline }}</td>
+            <td>
+                <span class="badge {% if drive.status == 'Approved' %}bg-success{% elif drive.status == 'Pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                    {{ drive.status }}
+                </span>
+            </td>
+            <td><a href="#" class="btn btn-sm btn-info text-white">View Applicants</a></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center">No drives created yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
