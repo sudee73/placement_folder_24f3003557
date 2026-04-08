@@ -3,101 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSS Placement Portal</title>
+    <title>IIT MADRAS PLACEMENT PORTAL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
-        /* General Styles */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* Professional JSS Header Section */
-        .header-logo-container { padding: 10px 0; border-bottom: 1px solid #ddd; }
-        .jss-logo { height: 60px; }
-        .header-text { margin-left: 15px; }
-        .header-title { font-weight: bold; font-size: 1.1rem; color: #555; margin-bottom: 0; }
-        .header-subtitle { color: #0a4170; font-weight: bold; font-size: 1rem; margin-top: -5px; }
+        /* Fixed Top Header */
+        .header-section {
+            background: #fff;
+            padding: 10px 5%;
+            border-bottom: 2px solid #004a99;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-box { display: flex; align-items: center; }
+        .logo-img { height: 60px; margin-right: 15px; }
+        .header-text b { color: #444; font-size: 1.1rem; display: block; }
+        .header-text span { color: #004a99; font-weight: bold; font-size: 1rem; }
 
-        /* JSS-style Right Top Navbar */
-        .jss-nav { list-style: none; margin: 0; padding: 0; display: flex; font-size: 0.9rem; gap: 1rem; }
-        .jss-nav-item { position: relative; }
-        .jss-nav-link { text-decoration: none; color: #333; font-weight: 500; text-transform: uppercase; padding: 10px 0; }
-        .jss-nav-link:hover { color: #0a4170; }
-        .jss-nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: #0a4170; visibility: hidden; transition: all 0.3s ease-in-out; }
-        .jss-nav-link:hover::after { visibility: visible; width: 100%; }
+        /* Navigation Links */
+        .nav-links { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: 600; font-size: 0.8rem; }
 
-        /* JSS Style Hero Section */
-        .hero-section { position: relative; height: 70vh; /* Adjustment to the height */ overflow: hidden; }
-        .hero-image { width: 100%; height: 100%; object-fit: cover; /* Important to keep aspect ratio */ object-position: center 30%; /* Focus on the top part of the building */ }
-        
-        /* The Dark Overlay at the bottom */
-        .hero-overlay-banner { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); color: white; padding: 40px 0 20px 0; text-align: center; }
-        .hero-banner-title { font-size: 3rem; font-weight: bold; margin-bottom: 0; text-transform: capitalize; letter-spacing: 1px; }
+        /* THE PHOTO SECTION - Fixed Standard Size */
+        .hero-box {
+            width: 100%;
+            height: 450px; /* Standard screen height for a hero image */
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Fits the building perfectly to the width */
+        }
 
-        /* Style tweaks for existing content cards */
-        .main-content { padding-top: 40px; padding-bottom: 60px; }
+        /* The Blue Title Bar */
+        .blue-bar {
+            background: #004a99;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            width: 100%;
+        }
+        .blue-bar h1 { margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: 1px; }
+
+        .content-area { padding: 40px 0; }
     </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
 
-    <header class="header-logo-container">
-        <div class="container d-flex justify-content-between align-items-center">
-            
-            <div class="d-flex align-items-center">
-                <img src="/static/IITM_Logo.png" alt="IITM Logo" class="jss-logo"> 
-                <div class="header-text">
-                    <p class="header-title">TRAINING AND PLACEMENT CELL</p>
-                    <p class="header-subtitle">JSS Technical Institutions</p>
-                </div>
+    <header class="header-section">
+        <div class="logo-box">
+            <img src="{{ url_for('static', filename='IITM_Logo.png') }}" class="logo-img">
+            <div class="header-text">
+                <b>TRAINING AND PLACEMENT CELL</b>
+                <span>IIT MADRAS BS DEGREE</span>
             </div>
-            
-            <ul class="jss-nav">
-                <li class="jss-nav-item"><a href="/" class="jss-nav-link">HOME</a></li>
-                <li class="jss-nav-item"><a href="/about" class="jss-nav-link">ABOUT US</a></li>
-                <li class="jss-nav-item"><a href="/past_recruiters" class="jss-nav-link">PAST RECRUITERS</a></li>
-                <li class="jss-nav-item"><a href="/contact" class="jss-nav-link">CONTACT US</a></li>
-                
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">HOME</a></li>
+                <li><a href="#">ABOUT US</a></li>
+                <li><a href="#">PAST RECRUITERS</a></li>
                 {% if current_user.is_authenticated %}
-                    <li class="jss-nav-item"><a href="/logout" class="jss-nav-link text-danger">LOGOUT</a></li>
+                    <li><a href="/logout" style="color: red;">LOGOUT</a></li>
                 {% else %}
-                    <li class="jss-nav-item"><a href="/login" class="jss-nav-link">LOGIN/REGISTER</a></li>
+                    <li><a href="/login">LOGIN/REGISTER</a></li>
                 {% endif %}
             </ul>
-        </div>
+        </nav>
     </header>
 
-    <div class="hero-section">
-        <img src="/static/Placement_Hero.jpg" alt="JSS Placement Cell Building" class="hero-image">
-        
-        <div class="hero-overlay-banner">
-            <div class="container">
-                <h1 class="hero-banner-title">JSS Placement Portal</h1>
-            </div>
-        </div>
+    <div class="hero-box">
+        <img src="{{ url_for('static', filename='Placement_Hero.jpg') }}">
     </div>
 
-    <main class="main-content flex-grow-1">
-        <div class="container">
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
+    <div class="blue-bar">
+        <h1>IIT MADRAS PLACEMENT PORTAL</h1>
+    </div>
 
-            {% block content %}
-            {% endblock %}
+    <main class="content-area">
+        <div class="container">
+            {% block content %}{% endblock %}
         </div>
     </main>
 
-    <footer class="footer mt-auto py-4 bg-light border-top">
-        <div class="container text-center">
-            <span class="text-muted small">© 2026 JSS Placement Cell | Sponsored by abc pqr</span>
-        </div>
+    <footer class="text-center py-4 border-top bg-light">
+        <small class="text-muted">© 2026 IIT MADRAS PLACEMENT CELL | Sponsored by abc pqr</small>
     </footer>
 
 </body>
