@@ -3,37 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placement Portal | abc pqr</title>
+    <title>JSS Placement Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        /* General Styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Professional JSS Header Section */
+        .header-logo-container { padding: 10px 0; border-bottom: 1px solid #ddd; }
+        .jss-logo { height: 60px; }
+        .header-text { margin-left: 15px; }
+        .header-title { font-weight: bold; font-size: 1.1rem; color: #555; margin-bottom: 0; }
+        .header-subtitle { color: #0a4170; font-weight: bold; font-size: 1rem; margin-top: -5px; }
+
+        /* JSS-style Right Top Navbar */
+        .jss-nav { list-style: none; margin: 0; padding: 0; display: flex; font-size: 0.9rem; gap: 1rem; }
+        .jss-nav-item { position: relative; }
+        .jss-nav-link { text-decoration: none; color: #333; font-weight: 500; text-transform: uppercase; padding: 10px 0; }
+        .jss-nav-link:hover { color: #0a4170; }
+        .jss-nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: #0a4170; visibility: hidden; transition: all 0.3s ease-in-out; }
+        .jss-nav-link:hover::after { visibility: visible; width: 100%; }
+
+        /* JSS Style Hero Section */
+        .hero-section { position: relative; height: 70vh; /* Adjustment to the height */ overflow: hidden; }
+        .hero-image { width: 100%; height: 100%; object-fit: cover; /* Important to keep aspect ratio */ object-position: center 30%; /* Focus on the top part of the building */ }
+        
+        /* The Dark Overlay at the bottom */
+        .hero-overlay-banner { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent); color: white; padding: 40px 0 20px 0; text-align: center; }
+        .hero-banner-title { font-size: 3rem; font-weight: bold; margin-bottom: 0; text-transform: capitalize; letter-spacing: 1px; }
+
+        /* Style tweaks for existing content cards */
+        .main-content { padding-top: 40px; padding-bottom: 60px; }
+    </style>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">IITM Placement Portal</a>
-            <div class="navbar-nav ms-auto">
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="header-logo-container">
+        <div class="container d-flex justify-content-between align-items-center">
+            
+            <div class="d-flex align-items-center">
+                <img src="/static/IITM_Logo.png" alt="IITM Logo" class="jss-logo"> 
+                <div class="header-text">
+                    <p class="header-title">TRAINING AND PLACEMENT CELL</p>
+                    <p class="header-subtitle">JSS Technical Institutions</p>
+                </div>
+            </div>
+            
+            <ul class="jss-nav">
+                <li class="jss-nav-item"><a href="/" class="jss-nav-link">HOME</a></li>
+                <li class="jss-nav-item"><a href="/about" class="jss-nav-link">ABOUT US</a></li>
+                <li class="jss-nav-item"><a href="/past_recruiters" class="jss-nav-link">PAST RECRUITERS</a></li>
+                <li class="jss-nav-item"><a href="/contact" class="jss-nav-link">CONTACT US</a></li>
+                
                 {% if current_user.is_authenticated %}
-                    <a class="nav-link" href="/logout">Logout ({{ current_user.username }})</a>
+                    <li class="jss-nav-item"><a href="/logout" class="jss-nav-link text-danger">LOGOUT</a></li>
                 {% else %}
-                    <a class="nav-link" href="/login">Login</a>
+                    <li class="jss-nav-item"><a href="/login" class="jss-nav-link">LOGIN/REGISTER</a></li>
                 {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <img src="/static/Placement_Hero.jpg" alt="JSS Placement Cell Building" class="hero-image">
+        
+        <div class="hero-overlay-banner">
+            <div class="container">
+                <h1 class="hero-banner-title">JSS Placement Portal</h1>
             </div>
         </div>
-    </nav>
-
-    <div class="container mt-4">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-info">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-        
-        {% block content %}{% endblock %}
     </div>
 
-    <footer class="text-center mt-5 py-3 border-top">
-        <p class="text-muted">Sponsored by abc pqr</p>
+    <main class="main-content flex-grow-1">
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-4 bg-light border-top">
+        <div class="container text-center">
+            <span class="text-muted small">© 2026 JSS Placement Cell | Sponsored by abc pqr</span>
+        </div>
     </footer>
+
 </body>
 </html>
